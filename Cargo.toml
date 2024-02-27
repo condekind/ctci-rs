@@ -1,0 +1,16 @@
+[package]
+name = "ctci-rs"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+paste = "1.0.14"
+gen_tests = { path = "src/gen_tests" }
+
+
+[workspace]
+members = [
+    ".",
+    "src/gen_tests",
+]
