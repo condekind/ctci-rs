@@ -1,1 +1,23 @@
+
 /target
+/archive
+/tmp
+
+# IDEs
+/.vscode
+/.idea
+
+
+# Binaries, libs
+*.o
+*.a
+*.so
+*.out
+*.bin
+*.exe
+
+# LLVM bitcode, bytecode, etc
+*.bc
+*.ic
+*.lc
+*.ll
