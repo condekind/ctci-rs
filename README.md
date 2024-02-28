@@ -1,7 +1,7 @@
 
 # Rust TDD Template for Cracking the Coding Interview, 6th Ed.
 
-> ⚠️ `[WIP]` Warning: this is a Work In Progress repo, it's far from complete!
+> ⚠️ `[WIP]` Warning: this is a Work In Progress repo, it's far from complete! You've been W⚠RNED!
 
 This repo is a template for solving the interview questions from the CTCI (6th Ed.) book, by Gayle Laakmann McDowell. It's not meant to provide the answers, just a base repo that already provides test cases for solutions __you__ will implement.
 
@@ -9,14 +9,51 @@ If you found a few solved exercises, these were committed as dummy tests to eval
 
 ## Structure
 
-Each chapter has a directory under `/src`, and they all come with a dummy test that asserts the name of the chapter. Inside each chapter, there is a rust file for each interview question, starting from `iq01` (for question #1 of that chapter), and so on. The tests for each question reside in the same file as the implementation, in a `mod tests` block. There's a `generate_tests!(fn, INT_LITERAL, assert_fn)` macro that generates products of `function[0..M] x (input, expected_output)[0..N]` - feel free to use that. It has some caveats, however:
-0. The macro relies on an existing list (`pub const &[(T, U)]`), strictly named `INPUT_EXPECTED`, defined at the top level of that exercise's module (the same file that contains your code for the problem).
-1. The user must define¹ the function that checks if their solution's output matches the expected output. Considering a solution has the signature `pub fn sol(t: T) -> U`, (`U` being the same type from above, for the expected output), the function that checks if the output matches would have a signature like `fn check_expected(got: &U, expected: U) -> bool`. The nuance here is the `&` for the result of the solution, this comes from how the macro is implemented.
-2. You have to hardcode the int literal passed to the macro to be the length of the `INPUT_EXPECTED` list.  As of now, I couldn't find a way to __use__ the __value__ of a variable (even if const) inside the proc macro. I came to understand why, but still tried some hackish approaches, such as trying to mimic dependant types to embed a value into the type, to no avail. So yes, those hardcoded magic numbers are my enemies and a source of self disappointment.
+Each chapter has a directory under `/src`. Inside each chapter, there is a rust file for each interview question, starting from `iq01` (for question #1 of that chapter), and so on. The tests for each question reside in the same file as the implementation, in a `mod tests` block. The whole project structure looks like this:
 
-> As development in the repo advances, these functions might be added over time - the user is free to choose whether to use them or define their own.
+```
+.
+├── Cargo.lock
+├── Cargo.toml
+├── Makefile
+├── README.md
+├── src
+│  │
+│  ├── ch01_arrays_and_strings
+│  │  ├── iq01.rs
+│  │  ├── ... other questions ...
+│  │  └── mod.rs
+│  │
+│  ├── ch02_linked_lists
+│  │  ├── iq01.rs
+│  │  ├── ... other questions ...
+│  │  └── mod.rs
+│  │
+│  ├── ch03_stacks_and_queues
+│  │  ├── ... interview questions ...
+│  │  └── mod.rs
+│  │
+│  ├── ... other chapters ...
+│  │
+│  ├── demo
+│  │  ├── example.rs
+│  │  └── mod.rs
+│  │
+│  ├── gen_tests
+│  │  ├── Cargo.lock
+│  │  ├── Cargo.toml
+│  │  └── src
+│  │     └── lib.rs
+│  │
+│  └── lib.rs
+│
+└── tools
+   └── ... not used for now ...
+```
 
-Having all that said, the macro is quite useful, especially when you have multiple solutions for a problem (which is a common request of the exercises). As an example, let's consider 3 solutions for the [FizzBuzz](https://rosettacode.org/wiki/FizzBuzz) problem (except instead of always going to 100, we pass in the limit as an argument). Say we have 12 `(input, expected)` entries in our `INPUT_EXPECTED` list. The full code is available in `/src/demo/example.rs`, but a simplified version looks like this:
+## Helper macro: `generate_tests!`
+
+There's a `generate_tests!(fn, N, assert_fn)` macro that generates individual tests from the product of `function[0..M] x (input, expected_output)[0..N]`. The macro is quite useful, especially when you have multiple solutions to a problem (which is a common request of the exercises). As an example, let's consider 3 solutions for the [FizzBuzz](https://rosettacode.org/wiki/FizzBuzz) problem (except instead of always going to 100, we pass the limit as an argument). Say we have 12 `(input, expected)` entries in our `INPUT_EXPECTED` list. The full code is available in `/src/demo/example.rs`, but a simplified version looks like this:
 ```rust
 pub fn fizzbuzz0(limit: i32) -> String { /* ... */ }
 pub fn fizzbuzz1(limit: i32) -> String { /* ... */ }
@@ -42,10 +79,14 @@ mod tests {
     use super::*;
     use gen_tests::generate_tests;
 
+    // Function to check if the output matches the expected string
     fn str_eq(a: &String, b: &str) -> bool {
         a.as_str() == b
     }
 
+    // Just to show alternative "check functions" can be used to generate
+    // further tests: this one checks if the length of the output matches the
+    // length of the expected output
     fn strlen_eq(a: &String, b: &str) -> bool {
         a.as_str().len() == b.len()
     }
@@ -63,30 +104,44 @@ mod tests {
 You'll have **72** test cases that show up individually whe you run `cargo test`, all identified with the chapter name, interview question number, function name and assertion function name. The input entry used from the list doesn't have a name, so they're numbered from the indexes of `INPUT_EXPECTED`. The FizzBuzz example was included as an optional feature - you can inspect its contents in `/src/demo/example.rs` and run its tests with `cargo test --features=demo -- demo`:
 
 ```
-: [0] condekind@seath:/home/condekind/repos/ctci-rs ; cargo test --features=demo -- demo
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+: [0] condekind@seath:/home/condekind/repos/ctci-rs ; cargo test --features=demo -- demo   
+   Compiling ctci-rs v0.1.0 (/home/condekind/repos/ctci-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s
      Running unittests src/lib.rs (target/debug/deps/ctci_rs-3e3b99799f540dfa)
 
 running 72 tests
 test demo::example::tests::fizzbuzz0_str_eq_000 ... ok
 test demo::example::tests::fizzbuzz0_str_eq_001 ... ok
-...
+test demo::example::tests::fizzbuzz0_str_eq_002 ... ok
+...many tests later...
+test demo::example::tests::fizzbuzz2_strlen_eq_009 ... ok
 test demo::example::tests::fizzbuzz2_strlen_eq_010 ... ok
 test demo::example::tests::fizzbuzz2_strlen_eq_011 ... ok
 
-test result: ok. 72 passed; 0 failed; 0 ignored; 0 measured; 70 filtered out; finished in 0.00s
-
-   Doc-tests ctci-rs
+test result: ok. 72 passed; 0 failed; 0 ignored; 0 measured; 53 filtered out; finished in 0.00s
 ```
+
+With all that said, there are some caveats:
+0. The macro relies on an existing list (`pub const &[(T, U)]`), strictly named `INPUT_EXPECTED`, defined at the top level of that exercise's module (the same file that contains your code for the problem).
+1. The user must define¹ the function that checks if their solution's output matches the expected output. Considering a solution has the signature `pub fn sol(t: T) -> U`, (`U` being the same type from above, for the expected output), the function that checks if the output matches would have a signature like `fn check_expected(got: &U, expected: U) -> bool`. **The nuance here is the `&` for the result of the solution**, this comes from how the macro is implemented.
+2. You **have** to pass a hardcoded² int <ins>**literal**</ins> to the macro, e.g., the `12` in `generate_tests!(fizzbuzz0, 12, str_eq)` can't be stored in a variable. Usually you want this number to match the length of the `INPUT_EXPECTED` list.
+
+> ¹ As development in the repo advances, these "check_expected" functions might be added over time - the user is free to choose whether to use them or to define their own.
+>
+> ² As of now, I couldn't find a way to access the __value__ of a variable (even if const) inside the proc macro. I came to understand why, but still tried some hackish approaches, such as trying to mimic dependent types to embed a value into the type, to no avail. So yes, those hardcoded magic numbers are my enemies and a source of self disappointment.
+
 
 ## How to write code to leverage the test macro
 
-To make sure the `generate_tests!` macro generates valid code, there's a way to "standardize" argument passing, as the number of arguments and their types might vary a lot between questions. Aside from very simple problems (e.g., FizzBuzz example above), the easiest way to do that is to use [**tuple structs**](https://doc.rust-lang.org/book/ch05-01-defining-structs.html#using-tuple-structs-without-named-fields-to-create-different-types). Here's an implementation of the second question from the first chapter as an example:
+To make sure the `generate_tests!` macro generates valid code, it might be useful to "standardize" argument passing, as the number and types of arguments vary a lot between questions. Aside from very simple problems (e.g., FizzBuzz example above), a straightforward approach is to use [**tuple structs**](https://doc.rust-lang.org/book/ch05-01-defining-structs.html#using-tuple-structs-without-named-fields-to-create-different-types). Here's an implementation of the second question from the first chapter as an example:
 ```rust
+// Q: Given two strings, check whether one is a permutation of another
+
 use std::collections::HashMap;
 
 #[derive(Debug, Copy, Clone)]
 pub struct InputArgs (
+    // "Encode" the arguments in a tuple struct
     &'static str,
     &'static str,
 );
@@ -95,6 +150,8 @@ pub fn check_permutation_hashmap(args: InputArgs) -> bool {
     // Destructure InputArgs
     let InputArgs(s0, s1) = args;
 
+    // Implement solution...
+    
     if s0.len() != s1.len() {
         return false;
     }
@@ -112,6 +169,8 @@ pub fn check_permutation_hashmap(args: InputArgs) -> bool {
     cnt0.eq(&cnt1)
 }
 
+// Use the tuple struct (InputArgs) as the first element of the
+// (input, expected) tuple in the list with all inputs to be used by the tests
 pub const INPUT_EXPECTED: &[(InputArgs, bool)] = &[
     (InputArgs("",""), true),                            // Both strings are empty
     (InputArgs("abc","abc"), true),                      // Identical strings
@@ -128,20 +187,24 @@ pub const INPUT_EXPECTED: &[(InputArgs, bool)] = &[
     (InputArgs("A1 b2!C","C!2b 1A"), true),              // Complex case with mixed characters
 ];
 
-pub fn eq(a: &bool, b: bool) -> bool {
-    *a == b
-}
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use gen_tests::generate_tests;
 
+    // Notice the ref in `got: &bool`. This "gimmick" is currently imposed by
+    // how `generate_tests!` is implemented, even though our
+    // `check_permutation_hashmap` returns a bool, not a &bool.
+    fn eq(got: &bool, expected: bool) -> bool {
+        *got == expected
+    }
+
     generate_tests!(check_permutation_hashmap, 13, eq);
 }
 ```
 
-Two other implementations of that question were provided in the file as further examples (not included above), but the gist is the same. Feel free to explore the repo, but don't expect many other questions to be solved like this one.
+Two other implementations for that problem were provided in the file as further examples (not included above), but the gist is the same. Feel free to explore the repo, but don't expect many other questions to be solved like this one.
 
 ## Tests targeting just a question, or just a chapter
 
@@ -151,7 +214,7 @@ You can request cargo to run tests just for one question by specifying that modu
 cargo test -- ch01_arrays_and_strings::iq01
 ```
 
-Alternatively, if you want to run all tests for a chapter, omit the last part of the command above:
+Alternatively, if you want to run all tests for a single chapter, omit the module name of the exercise:
 ```bash
 cargo test -- ch01_arrays_and_strings
 ```
@@ -161,5 +224,10 @@ cargo test -- ch01_arrays_and_strings
 ## TODO:
 
 - Make the assertion function optional, defaulting to the macro generating a simple `result == expected` as it was first implemented.
-- Find a (preferably non-hacky) way to get rid of the magic numbers matching the length of the INPUT_EXPECTED list.
-- If the above is possible, maybe even pass in the INPUT_EXPECTED list to add more flexibility.
+- Find a (preferably non-hacky) way to get rid of the magic numbers matching the length of the `INPUT_EXPECTED` list.
+- Add flexibility to the (input, expected) list, providing alternatives to the (current) one and only `INPUT_EXPECTED` list.
+- Add remaining files for missing exercises. This implies:
+  - At least one sensible tuple struct for the initial problem of the question
+  - At least one function stub with a sensible signature for the initial problem
+  - At least one sensible "check/assert function"
+  - A minimal `INPUT_EXPECTED` list for the initial problem
