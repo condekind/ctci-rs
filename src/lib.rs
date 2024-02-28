@@ -1,5 +1,11 @@
-#![feature(unboxed_closures, const_mut_refs, const_for, const_trait_impl)]
-#![feature(concat_idents)]
+#![feature(
+    unboxed_closures,
+    const_mut_refs,
+    const_for,
+    const_trait_impl,
+    effects,
+    concat_idents
+)]
 
 pub mod ch01_arrays_and_strings;
 pub mod ch02_linked_lists;
@@ -18,3 +24,6 @@ pub mod ch14_databases;
 pub mod ch15_threads_and_locks;
 pub mod ch16_moderate;
 pub mod ch17_hard;
+
+#[cfg(feature = "demo")]
+pub mod demo;

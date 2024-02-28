@@ -8,9 +8,12 @@ edition = "2021"
 paste = "1.0.14"
 gen_tests = { path = "src/gen_tests" }
 
-
 [workspace]
 members = [
     ".",
     "src/gen_tests",
 ]
+
+[features]
+demo = []
+
