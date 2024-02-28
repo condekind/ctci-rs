@@ -1,26 +1,8 @@
-// Define the functions to check if a string contains only unique characters
-
 pub fn is_unique(input: &str) -> bool {
     use std::collections::HashSet;
     let mut chars = HashSet::new();
     input.chars().all(move |c| chars.insert(c))
 }
-
-//// Wrong, only works for lowercase
-//pub fn is_unique_no_ds_lowercase(input: &str) -> bool {
-//    if input.len() > 128 {
-//        return false;
-//    }
-//    let mut checker = 0;
-//    for c in input.chars() {
-//        let val = c as u32 - 'a' as u32;
-//        if checker & (1 << val) > 0 {
-//            return false;
-//        }
-//        checker |= 1 << val;
-//    }
-//    true
-//}
 
 pub fn is_unique_no_ds(input: &str) -> bool {
     if input.len() > 128 {
@@ -70,7 +52,8 @@ mod tests {
         *result == expected
     }
 
-    // The hardcoded numbers must match the length of the INPUT_EXPECTED list
+    // The hardcoded int literals should ideally match the length of the
+    // INPUT_EXPECTED list
     generate_tests!(is_unique, 7, eq);
     generate_tests!(is_unique_no_ds, 7, eq);
 }

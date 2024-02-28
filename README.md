@@ -21,12 +21,12 @@ Each chapter has a directory under `/src`. Inside each chapter, there is a rust 
 │  │
 │  ├── ch01_arrays_and_strings
 │  │  ├── iq01.rs
+│  │  ├── iq02.rs
 │  │  ├── ... other questions ...
 │  │  └── mod.rs
 │  │
 │  ├── ch02_linked_lists
-│  │  ├── iq01.rs
-│  │  ├── ... other questions ...
+│  │  ├── ... interview questions ...
 │  │  └── mod.rs
 │  │
 │  ├── ch03_stacks_and_queues
@@ -53,7 +53,7 @@ Each chapter has a directory under `/src`. Inside each chapter, there is a rust 
 
 ## Helper macro: `generate_tests!`
 
-There's a `generate_tests!(fn, N, assert_fn)` macro that generates individual tests from the product of `function[0..M] x (input, expected_output)[0..N]`. The macro is quite useful, especially when you have multiple solutions to a problem (which is a common request of the exercises). As an example, let's consider 3 solutions for the [FizzBuzz](https://rosettacode.org/wiki/FizzBuzz) problem (except instead of always going to 100, we pass the limit as an argument). Say we have 12 `(input, expected)` entries in our `INPUT_EXPECTED` list. The full code is available in `/src/demo/example.rs`, but a simplified version looks like this:
+There's a `generate_tests!(fn, N, assert_fn)` macro that generates individual tests from the product of `function[0..M] x (input, expected_output)[0..N]`. The macro is quite useful, especially when you have multiple solutions to a problem (which is a common request of the exercises). As an example, let's consider 3 solutions for the [FizzBuzz](https://rosettacode.org/wiki/FizzBuzz) problem (except instead of always going to 100, we pass the limit as an argument). Say we have 12 `(input, expected)` entries in our `INPUT_EXPECTED` list. The full code is available in [`/src/demo/example.rs`](src/demo/example.rs), but a simplified version looks like this:
 ```rust
 pub fn fizzbuzz0(limit: i32) -> String { /* ... */ }
 pub fn fizzbuzz1(limit: i32) -> String { /* ... */ }
@@ -101,7 +101,7 @@ mod tests {
 }
 ```
 
-You'll have **72** test cases that show up individually whe you run `cargo test`, all identified with the chapter name, interview question number, function name and assertion function name. The input entry used from the list doesn't have a name, so they're numbered from the indexes of `INPUT_EXPECTED`. The FizzBuzz example was included as an optional feature - you can inspect its contents in `/src/demo/example.rs` and run its tests with `cargo test --features=demo -- demo`:
+You'll have **72** test cases that show up individually whe you run `cargo test`, all identified with the chapter name, interview question number, function name and assertion function name. The input entry used from the list doesn't have a name, so they're numbered from the indexes of `INPUT_EXPECTED`. The FizzBuzz example was included as an optional feature - you can inspect its contents in [`/src/demo/example.rs`](src/demo/example.rs) and run its tests with `cargo test --features=demo -- demo`:
 
 ```
 : [0] condekind@seath:/home/condekind/repos/ctci-rs ; cargo test --features=demo -- demo   
@@ -204,7 +204,7 @@ mod tests {
 }
 ```
 
-Two other implementations for that problem were provided in the file as further examples (not included above), but the gist is the same. Feel free to explore the repo, but don't expect many other questions to be solved like this one.
+Two other implementations for that problem were [provided in the file](src/ch01_arrays_and_strings/iq02.rs) as further examples (not included above), but the gist is the same. Feel free to explore the repo, but don't expect many other questions to be solved like this one.
 
 ## Tests targeting just a question, or just a chapter
 
