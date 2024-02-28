@@ -122,9 +122,10 @@ test result: ok. 72 passed; 0 failed; 0 ignored; 0 measured; 53 filtered out; fi
 ```
 
 With all that said, there are some caveats:
-0. The macro relies on an existing list (`pub const &[(T, U)]`), strictly named `INPUT_EXPECTED`, defined at the top level of that exercise's module (the same file that contains your code for the problem).
-1. The user must define¹ the function that checks if their solution's output matches the expected output. Considering a solution has the signature `pub fn sol(t: T) -> U`, (`U` being the same type from above, for the expected output), the function that checks if the output matches would have a signature like `fn check_expected(got: &U, expected: U) -> bool`. **The nuance here is the `&` for the result of the solution**, this comes from how the macro is implemented.
-2. You **have** to pass a hardcoded² int <ins>**literal**</ins> to the macro, e.g., the `12` in `generate_tests!(fizzbuzz0, 12, str_eq)` can't be stored in a variable. Usually you want this number to match the length of the `INPUT_EXPECTED` list.
+
+1. The macro relies on an existing list (`pub const &[(T, U)]`), strictly named `INPUT_EXPECTED`, defined at the top level of that exercise's module (the same file that contains your code for the problem).
+2. The user must define¹ the function that checks if their solution's output matches the expected output. Considering a solution has the signature `pub fn sol(t: T) -> U`, (`U` being the same type from above, for the expected output), the function that checks if the output matches would have a signature like `fn check_expected(got: &U, expected: U) -> bool`. **The nuance here is the `&` for the result of the solution**, this comes from how the macro is implemented.
+3. You **have** to pass a hardcoded² int <ins>**literal**</ins> to the macro, e.g., the `12` in `generate_tests!(fizzbuzz0, 12, str_eq)` can't be stored in a variable. Usually you want this number to match the length of the `INPUT_EXPECTED` list.
 
 > ¹ As development in the repo advances, these "check_expected" functions might be added over time - the user is free to choose whether to use them or to define their own.
 >
