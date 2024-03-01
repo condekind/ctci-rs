@@ -1,4 +1,3 @@
-
 pub mod extra {
     use std::marker::PhantomData;
 
@@ -12,9 +11,9 @@ pub mod extra {
     // `new` (which is just an alias for `with_default_check`). Its fields are not
     // public, so it can't be instantiated directly
     pub struct Solver<T, U, F, G>
-        where
-            F: Fn(T) -> U + 'static,
-            G: Fn(&U, U) -> bool + 'static,
+    where
+        F: Fn(T) -> U + 'static,
+        G: Fn(&U, U) -> bool + 'static,
     {
         solve_fn: Box<F>,
         check_output_fn: Box<G>,
@@ -24,8 +23,8 @@ pub mod extra {
     // Provides a way to construct a Solver, plus setters for the solve() and
     // check_output() functions
     impl<T, U, F> Solver<T, U, F, fn(&U, U) -> bool>
-        where
-            F: Fn(T) -> U + 'static,
+    where
+        F: Fn(T) -> U + 'static,
     {
         // Main ctor (factory function)
         pub fn with_custom_check(solve_fn: F, check_output_fn: fn(&U, U) -> bool) -> Self {
@@ -53,9 +52,9 @@ pub mod extra {
     // The setter functions of the first impl. block for Solver (above) are also
     // available for Solvers constructed `with_default_check`
     impl<T, U, F> Solver<T, U, F, fn(&U, U) -> bool>
-        where
-            F: Fn(T) -> U + 'static,
-            U: PartialEq,
+    where
+        F: Fn(T) -> U + 'static,
+        U: PartialEq,
     {
         // Alternative ctor (factory) with a default check_output_fn that requires
         // U: PartialEq
@@ -79,9 +78,9 @@ pub mod extra {
     // a tuple struct and code your solution function to take it and destructure it
     // at the beginning. This will allow you to leverage the generate_tests! macro
     impl<T, U, F, G> Solution<T, U> for Solver<T, U, F, G>
-        where
-            F: Fn(T) -> U + 'static,
-            G: Fn(&U, U) -> bool + 'static,
+    where
+        F: Fn(T) -> U + 'static,
+        G: Fn(&U, U) -> bool + 'static,
     {
         fn solve(&self, args: T) -> U {
             (self.solve_fn)(args)
@@ -91,5 +90,4 @@ pub mod extra {
             (self.check_output_fn)(expected, result)
         }
     }
-
 }

@@ -1,9 +1,7 @@
-
 use std::collections::HashMap;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Params(pub &'static str, pub &'static str);
-
 
 fn check_permutation_hashmap(args: Params) -> bool {
     let Params(s0, s1) = args;
@@ -70,35 +68,34 @@ pub fn check_permutation_array_count(args: Params) -> bool {
 }
 
 pub const INPUT_EXPECTED: &[(Params, bool)] = &[
-    (Params("", ""), true),             // Both strings are empty
-    (Params("abc", "abc"), true),       // Identical strings
-    (Params("abc", "cba"), true),       // Reversed strings
-    (Params("aabbcc", "abcabc"), true), // Same characters, different order
-    (Params("abc", "def"), false),      // Different characters
-    (Params("abc", "abcd"), false),     // Different lengths
-    (Params("aabbcc", "aabbc"), false), // Same characters, different quantities
-    (Params("1234", "4321"), true),     // Numbers as permutations
-    (Params("AbcD", "DcbA"), true),     // Mixed-case permutations
-    (Params("a b c", "  cba"), true),   // Strings with spaces
+    (Params("", ""), true),                           // Both strings are empty
+    (Params("abc", "abc"), true),                     // Identical strings
+    (Params("abc", "cba"), true),                     // Reversed strings
+    (Params("aabbcc", "abcabc"), true),               // Same characters, different order
+    (Params("abc", "def"), false),                    // Different characters
+    (Params("abc", "abcd"), false),                   // Different lengths
+    (Params("aabbcc", "aabbc"), false),               // Same characters, different quantities
+    (Params("1234", "4321"), true),                   // Numbers as permutations
+    (Params("AbcD", "DcbA"), true),                   // Mixed-case permutations
+    (Params("a b c", "  cba"), true),                 // Strings with spaces
     (Params("hello, world!", "world! hello,"), true), // Strings with punctuation
-    (Params("Test1!", "test1!"), false), // Different case, not permutations
-    (Params("A1 b2!C", "C!2b 1A"), true), // Complex case with mixed characters
+    (Params("Test1!", "test1!"), false),              // Different case, not permutations
+    (Params("A1 b2!C", "C!2b 1A"), true),             // Complex case with mixed characters
 ];
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use extra::extra::*;
-    use gen_tests::generate_tests;
-
+    use gen_tests::generate_tests2;
 
     fn eq(a: &bool, b: bool) -> bool {
         *a == b
     }
 
-    //generate_tests!(check_permutation_hashmap, 13, eq);
-    //generate_tests!(check_permutation_sort, 13, eq);
-    //generate_tests!(check_permutation_array_count, 13, eq);
+    //generate_tests2!(check_permutation_hashmap, 13, eq);
+    //generate_tests2!(check_permutation_sort, 13, eq);
+    //generate_tests2!(check_permutation_array_count, 13, eq);
 
     #[test]
     fn test_permutation_hashmap_default_check() {
@@ -106,7 +103,11 @@ mod tests {
 
         for (input, expected) in INPUT_EXPECTED.iter() {
             let result = checker.solve(*input);
-            assert!(checker.check_output(expected, result), "Failed check_permutation_hashmap on input: {:?}", input);
+            assert!(
+                checker.check_output(expected, result),
+                "Failed check_permutation_hashmap on input: {:?}",
+                input
+            );
         }
     }
 
@@ -116,7 +117,11 @@ mod tests {
 
         for (input, expected) in INPUT_EXPECTED.iter() {
             let result = checker.solve(*input);
-            assert!(checker.check_output(expected, result), "Failed check_permutation_sort on input: {:?}", input);
+            assert!(
+                checker.check_output(expected, result),
+                "Failed check_permutation_sort on input: {:?}",
+                input
+            );
         }
     }
 
@@ -126,7 +131,11 @@ mod tests {
 
         for (input, expected) in INPUT_EXPECTED.iter() {
             let result = checker.solve(*input);
-            assert!(checker.check_output(expected, result), "Failed check_permutation_hashmap on input: {:?}", input);
+            assert!(
+                checker.check_output(expected, result),
+                "Failed check_permutation_hashmap on input: {:?}",
+                input
+            );
         }
     }
 
@@ -136,7 +145,11 @@ mod tests {
 
         for (input, expected) in INPUT_EXPECTED.iter() {
             let result = checker.solve(*input);
-            assert!(checker.check_output(expected, result), "Failed check_permutation_sort on input: {:?}", input);
+            assert!(
+                checker.check_output(expected, result),
+                "Failed check_permutation_sort on input: {:?}",
+                input
+            );
         }
     }
 }

@@ -90,13 +90,17 @@ pub const INPUT_EXPECTED: &[(InputArgs, bool)] = &[
 #[cfg(test)]
 mod tests {
     use super::*;
-    use gen_tests::generate_tests;
+    use gen_tests::generate_tests2;
 
     fn eq(a: &bool, b: bool) -> bool {
         *a == b
     }
 
-    generate_tests!(check_permutation_hashmap, 13, eq);
-    generate_tests!(check_permutation_sort, 13, eq);
-    generate_tests!(check_permutation_array_count, 13, eq);
+    generate_tests2!(check_permutation_hashmap, 13, eq);
+    generate_tests2!(check_permutation_sort, 13, eq);
+    generate_tests2!(check_permutation_array_count, 13, eq);
+
+    generate_tests2!(check_permutation_hashmap, 13);
+    generate_tests2!(check_permutation_sort, 13);
+    generate_tests2!(check_permutation_array_count, 13);
 }
