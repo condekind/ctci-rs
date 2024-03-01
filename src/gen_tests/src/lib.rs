@@ -70,3 +70,4 @@ pub fn generate_tests(input: TokenStream) -> TokenStream {
         #(#tests)*
     })
 }
+

@@ -7,10 +7,12 @@ edition = "2021"
 [dependencies]
 paste = "1.0.14"
 gen_tests = { path = "src/gen_tests" }
+extra = { path = "src/extra" }
 
 [workspace]
 members = [
     ".",
+    "src/extra",
     "src/gen_tests",
 ]
 
