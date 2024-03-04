@@ -96,9 +96,9 @@ mod tests {
         *a == b
     }
 
-    generate_tests2!(check_permutation_hashmap, 13, eq);
-    generate_tests2!(check_permutation_sort, 13, eq);
-    generate_tests2!(check_permutation_array_count, 13, eq);
+    //generate_tests2!(check_permutation_hashmap, 13, eq);
+    //generate_tests2!(check_permutation_sort, 13, eq);
+    //generate_tests2!(check_permutation_array_count, 13, eq);
 
     generate_tests2!(check_permutation_hashmap, 13);
     generate_tests2!(check_permutation_sort, 13);

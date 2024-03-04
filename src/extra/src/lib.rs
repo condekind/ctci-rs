@@ -46,22 +46,28 @@ pub mod extra {
         }
     }
 
-    // This alternative impl includes a binding on U that is only used for when the
-    // user wishes to use the default check function.
+    // This alternative impl includes a trait bound on U that is only used for
+    // when the user wishes to use the default check function.
     //
-    // The setter functions of the first impl. block for Solver (above) are also
-    // available for Solvers constructed `with_default_check`
+    // The setter functions of the first impl. block for Solver (above) are
+    // also available for Solvers constructed `with_default_check`
     impl<T, U, F> Solver<T, U, F, fn(&U, U) -> bool>
     where
         F: Fn(T) -> U + 'static,
         U: PartialEq,
     {
-        // Alternative ctor (factory) with a default check_output_fn that requires
-        // U: PartialEq
+        // Alternative ctor (factory) with a default check_output_fn that
+        // requires `U: PartialEq`
         pub fn with_default_check(solve_fn: F) -> Self {
             Self {
                 solve_fn: Box::new(solve_fn),
-                check_output_fn: Box::new(|a, b| *a == b), // Default check function
+
+                // Default check function
+                check_output_fn: Box::new(|a, b| *a == b),
+
+                // This just exists to tell the compiler this struct logically
+                // contains data of types T and U, but doesn't physically store
+                // them. It marks fields of unused types, in a context
                 _marker: PhantomData,
             }
         }
