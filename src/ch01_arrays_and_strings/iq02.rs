@@ -71,26 +71,26 @@ pub fn check_permutation_array_count(args: InputArgs) -> bool {
     true
 }
 
-pub const INPUT_EXPECTED: &[(InputArgs, bool)] = &[
-    (InputArgs("", ""), true),             // Both strings are empty
-    (InputArgs("abc", "abc"), true),       // Identical strings
-    (InputArgs("abc", "cba"), true),       // Reversed strings
-    (InputArgs("aabbcc", "abcabc"), true), // Same characters, different order
-    (InputArgs("abc", "def"), false),      // Different characters
-    (InputArgs("abc", "abcd"), false),     // Different lengths
-    (InputArgs("aabbcc", "aabbc"), false), // Same characters, different quantities
-    (InputArgs("1234", "4321"), true),     // Numbers as permutations
-    (InputArgs("AbcD", "DcbA"), true),     // Mixed-case permutations
-    (InputArgs("a b c", "  cba"), true),   // Strings with spaces
-    (InputArgs("hello, world!", "world! hello,"), true), // Strings with punctuation
-    (InputArgs("Test1!", "test1!"), false), // Different case, not permutations
-    (InputArgs("A1 b2!C", "C!2b 1A"), true), // Complex case with mixed characters
-];
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use gen_tests::generate_tests;
+
+    const INPUT_EXPECTED: &[(InputArgs, bool)] = &[
+        (InputArgs("", ""), true),             // Both strings are empty
+        (InputArgs("abc", "abc"), true),       // Identical strings
+        (InputArgs("abc", "cba"), true),       // Reversed strings
+        (InputArgs("aabbcc", "abcabc"), true), // Same characters, different order
+        (InputArgs("abc", "def"), false),      // Different characters
+        (InputArgs("abc", "abcd"), false),     // Different lengths
+        (InputArgs("aabbcc", "aabbc"), false), // Same characters, different quantities
+        (InputArgs("1234", "4321"), true),     // Numbers as permutations
+        (InputArgs("AbcD", "DcbA"), true),     // Mixed-case permutations
+        (InputArgs("a b c", "  cba"), true),   // Strings with spaces
+        (InputArgs("hello, world!", "world! hello,"), true), // Strings with punctuation
+        (InputArgs("Test1!", "test1!"), false), // Different case, not permutations
+        (InputArgs("A1 b2!C", "C!2b 1A"), true), // Complex case with mixed characters
+    ];
 
     fn eq(a: &bool, b: bool) -> bool {
         *a == b
@@ -99,4 +99,8 @@ mod tests {
     generate_tests!(check_permutation_hashmap, 13, eq);
     generate_tests!(check_permutation_sort, 13, eq);
     generate_tests!(check_permutation_array_count, 13, eq);
+
+    generate_tests!(check_permutation_hashmap, 13);
+    generate_tests!(check_permutation_sort, 13);
+    generate_tests!(check_permutation_array_count, 13);
 }

@@ -1,4 +1,8 @@
 
+# Metadata files (they'll be generated on every build)
+/src/ch*/metadata/*.rs
+
+
 /target
 /archive
 /tmp

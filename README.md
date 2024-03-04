@@ -224,11 +224,11 @@ cargo test -- ch01_arrays_and_strings
 
 ## TODO:
 
-- Make the assertion function optional, defaulting to the macro generating a simple `result == expected` as it was first implemented.
-- Find a (preferably non-hacky) way to get rid of the magic numbers matching the length of the `INPUT_EXPECTED` list.
-- Add flexibility to the (input, expected) list, providing alternatives to the (current) one and only `INPUT_EXPECTED` list.
-- Add remaining files for missing exercises. This implies:
-  - At least one sensible tuple struct for the initial problem of the question
-  - At least one function stub with a sensible signature for the initial problem
-  - At least one sensible "check/assert function"
-  - A minimal `INPUT_EXPECTED` list for the initial problem
+- [X] Make the assertion function optional, defaulting to the macro generating a simple `result == expected` as it was first implemented.
+- [ ] Find a (preferably non-hacky) way to get rid of the magic numbers matching the length of the `INPUT_EXPECTED` list.
+- [ ] Add flexibility to the (input, expected) list, providing alternatives to the (current) one and only `INPUT_EXPECTED` list.
+- [ ] Add remaining files for missing exercises. This implies:
+  - [ ] At least one sensible tuple struct for the initial problem of the question
+  - [ ] At least one function stub with a sensible signature for the initial problem
+  - [ ] At least one sensible "check/assert function"
+  - [ ] A minimal `INPUT_EXPECTED` list for the initial problem

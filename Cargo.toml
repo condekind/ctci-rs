@@ -2,18 +2,47 @@
 name = "ctci-rs"
 version = "0.1.0"
 edition = "2021"
+build = "build.rs"
 
 
 [dependencies]
 paste = "1.0.14"
 gen_tests = { path = "src/gen_tests" }
+extra = { path = "src/extra" }
+chrono = "0.4.34"
+syn = { version = "2.0.52", features = ["clone-impls", "derive", "full", "parsing", "printing", "proc-macro", "quote", "extra-traits", "fold", "test", "visit", "visit-mut"] }
+lazy_static = "1.4.0"
 
 [workspace]
 members = [
     ".",
+    "src/extra",
     "src/gen_tests",
+    "src/parse_tests",
 ]
 
 [features]
 demo = []
+
+[build-dependencies]
+# Used by build.rs to parse all interview question files, extract the lengths
+# of constant or static lists of (input, expected) and write them to a file
+# so the generate_tests! macro correctly generates the number of tests for
+# each iqXX file
+parse_tests = { path = "src/parse_tests" }
+chrono = "0.4.34"
+
+[profile.dev]
+opt-level = 0
+debug = 2
+debug-assertions = true
+overflow-checks = true
+lto = false
+panic = 'unwind'
+incremental = true
+codegen-units = 256
+rpath = false
+
+[profile.release]
+debug = 2
 

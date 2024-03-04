@@ -33,27 +33,25 @@ pub fn is_unique_no_ds(input: &str) -> bool {
     true
 }
 
-pub const INPUT_EXPECTED: &[(&str, bool)] = &[
-    ("abcde", true),
-    ("hello", false),
-    ("", true),
-    ("Ff", true),
-    ("noon", false),
-    ("non", false),
-    ("Non", true),
-];
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use gen_tests::generate_tests;
 
+    const INPUT_EXPECTED: &[(&str, bool)] = &[
+        ("abcde", true),
+        ("hello", false),
+        ("", true),
+        ("Ff", true),
+        ("noon", false),
+        ("non", false),
+        ("Non", true),
+    ];
+
     fn eq(result: &bool, expected: bool) -> bool {
         *result == expected
     }
 
-    // The hardcoded int literals should ideally match the length of the
-    // INPUT_EXPECTED list
     generate_tests!(is_unique, 7, eq);
     generate_tests!(is_unique_no_ds, 7, eq);
 }
