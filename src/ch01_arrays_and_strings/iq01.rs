@@ -33,49 +33,12 @@ pub fn is_unique_no_ds(input: &str) -> bool {
     true
 }
 
-use lazy_static::lazy_static;
-
-fn gen_input_expected() -> &'static [(&'static str, bool)] {
-    let input_expected = &[
-        ("abcde", true),
-        ("hello", false),
-        ("", true),
-        ("Ff", true),
-        ("noon", false),
-        ("non", false),
-        ("Non", true),
-    ];
-
-    input_expected
-}
-
-//lazy_static! {
-//    static ref INPUT_EXPECTED: &'static [(&'static str, bool)] = {
-//        gen_input_expected()
-//    };
-//}
-
-fn gen_global_data() -> &'static [(&'static str, bool)] {
-    let input_expected = &[
-        ("item1", true),
-        ("item2", false),
-        ("item3", true),
-        ("item4", false),
-        ("item5", true),
-    ];
-
-    input_expected
-}
-lazy_static! {
-    static ref GLOBAL_DATA: &'static [(&'static str, bool)] = { gen_input_expected() };
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use gen_tests::generate_tests;
 
-    static INPUT_EXPECTED: &[(&str, bool)] = &[
+    const INPUT_EXPECTED: &[(&str, bool)] = &[
         ("abcde", true),
         ("hello", false),
         ("", true),
@@ -85,27 +48,10 @@ mod tests {
         ("Non", true),
     ];
 
-    //const INPUT_EXPECTED: &[(&str, bool)] = &[
-    //    ("abcde", true),
-    //    ("hello", false),
-    //    ("", true),
-    //    ("Ff", true),
-    //    ("noon", false),
-    //    ("non", false),
-    //    ("Non", true),
-    //];
-
-    /*
-    static INPUT_LEN: usize = INPUT_EXPECTED.len();
-    const INPUT_LEN: usize = INPUT_EXPECTED.len();
-    */
-
     fn eq(result: &bool, expected: bool) -> bool {
         *result == expected
     }
 
-    // The hardcoded int literals should ideally match the length of the
-    // INPUT_EXPECTED list
     generate_tests!(is_unique, 7, eq);
     generate_tests!(is_unique_no_ds, 7, eq);
 }

@@ -84,7 +84,7 @@ pub const INPUT_EXPECTED: &[(Params, bool)] = &[
 mod tests {
     use super::*;
     use extra::extra::*;
-    use gen_tests::generate_tests2;
+    use gen_tests::generate_tests;
 
     fn eq(a: &bool, b: bool) -> bool {
         *a == b

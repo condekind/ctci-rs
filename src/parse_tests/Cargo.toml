@@ -1,0 +1,8 @@
+[package]
+name = "parse_tests"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chrono = "0.4.34"
+syn = { version = "2.0.52", features = ["clone-impls", "derive", "full", "parsing", "printing", "proc-macro", "quote", "extra-traits", "fold", "test", "visit", "visit-mut"] }
